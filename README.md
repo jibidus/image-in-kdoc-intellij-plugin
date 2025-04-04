@@ -1,6 +1,12 @@
 # intellij-plugin-custom-debugger-renderer
 
-* [plugin.xml](https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html?from=IJPluginTemplate)
+TODO:
+* upgrade to latest IntelliJ
+
+register new extension point on [NodeRenderer](https://github.com/JetBrains/intellij-community/blob/master/java/debugger/impl/src/com/intellij/debugger/ui/tree/render/NodeRenderer.java).
+
+* [extension point declaration & usage](https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html?from=IJPluginTemplate#example)
+* [plugin doc entry point](https://plugins.jetbrains.com/docs/intellij/plugin-structure.html?from=IJPluginTemplate)
 * [tutorials](https://plugins.jetbrains.com/docs/intellij?from=IJPluginTemplate)
 * [Code samples](https://github.com/JetBrains/intellij-sdk-code-samples)
 
