@@ -1,4 +1,4 @@
-package com.github.jibidus.intellijplugincustomdebuggerrenderer
+package org.jibidus.intellij.customdebuggerrenderer
 
 import com.intellij.DynamicBundle
 import org.jetbrains.annotations.NonNls

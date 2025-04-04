@@ -1,9 +1,9 @@
-package com.github.jibidus.intellijplugincustomdebuggerrenderer.services
+package org.jibidus.intellij.customdebuggerrenderer.services
 
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.project.Project
-import com.github.jibidus.intellijplugincustomdebuggerrenderer.MyBundle
+import org.jibidus.intellij.customdebuggerrenderer.MyBundle
 
 @Service(Service.Level.PROJECT)
 class MyProjectService(project: Project) {

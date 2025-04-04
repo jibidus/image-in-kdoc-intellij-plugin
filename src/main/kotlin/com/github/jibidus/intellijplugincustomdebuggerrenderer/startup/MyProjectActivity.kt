@@ -1,4 +1,4 @@
-package com.github.jibidus.intellijplugincustomdebuggerrenderer.startup
+package org.jibidus.intellij.customdebuggerrenderer.startup
 
 import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.project.Project

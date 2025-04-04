@@ -1,5 +1,10 @@
 # intellij-plugin-custom-debugger-renderer
 
+* [plugin.xml](https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html?from=IJPluginTemplate)
+* [tutorials](https://plugins.jetbrains.com/docs/intellij?from=IJPluginTemplate)
+* [Code samples](https://github.com/JetBrains/intellij-sdk-code-samples)
+
+
 ![Build](https://github.com/jibidus/intellij-plugin-custom-debugger-renderer/workflows/Build/badge.svg)
 [![Version](https://img.shields.io/jetbrains/plugin/v/MARKETPLACE_ID.svg)](https://plugins.jetbrains.com/plugin/MARKETPLACE_ID)
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/MARKETPLACE_ID.svg)](https://plugins.jetbrains.com/plugin/MARKETPLACE_ID)

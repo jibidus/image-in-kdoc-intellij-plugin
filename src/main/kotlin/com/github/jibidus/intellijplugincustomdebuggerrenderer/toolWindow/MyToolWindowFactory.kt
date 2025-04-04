@@ -1,4 +1,4 @@
-package com.github.jibidus.intellijplugincustomdebuggerrenderer.toolWindow
+package org.jibidus.intellij.customdebuggerrenderer.toolWindow
 
 import com.intellij.openapi.components.service
 import com.intellij.openapi.diagnostic.thisLogger
@@ -8,8 +8,8 @@ import com.intellij.openapi.wm.ToolWindowFactory
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBPanel
 import com.intellij.ui.content.ContentFactory
-import com.github.jibidus.intellijplugincustomdebuggerrenderer.MyBundle
-import com.github.jibidus.intellijplugincustomdebuggerrenderer.services.MyProjectService
+import org.jibidus.intellij.customdebuggerrenderer.MyBundle
+import org.jibidus.intellij.customdebuggerrenderer.services.MyProjectService
 import javax.swing.JButton
 
 
