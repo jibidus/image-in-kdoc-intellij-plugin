@@ -1,60 +1,127 @@
 package org.jibidus.intellij.customdebuggerrenderer
-import com.intellij.debugger.DebuggerContext
-import com.intellij.debugger.engine.evaluation.EvaluationContext
-import com.intellij.debugger.ui.tree.DebuggerTreeNode
-import com.intellij.debugger.ui.tree.ValueDescriptor
-import com.intellij.debugger.ui.tree.render.ChildrenBuilder
-import com.intellij.debugger.ui.tree.render.CompoundReferenceRenderer;
-import com.intellij.debugger.ui.tree.render.DescriptorLabelListener
-import com.intellij.debugger.ui.tree.render.NodeRenderer
-import com.intellij.debugger.ui.tree.render.Renderer
-import com.intellij.psi.PsiElement
+
+import com.intellij.debugger.engine.FullValueEvaluatorProvider
+import com.intellij.debugger.engine.evaluation.EvaluationContextImpl
+import com.intellij.debugger.impl.DebuggerUtilsImpl
+import com.intellij.debugger.ui.impl.watch.ValueDescriptorImpl
+import com.intellij.debugger.ui.tree.render.CompoundRendererProvider
+import com.intellij.debugger.ui.tree.render.CustomPopupFullValueEvaluator
+import com.intellij.openapi.diagnostic.Logger
+import com.intellij.rt.debugger.ImageSerializer
+import com.sun.jdi.StringReference
 import com.sun.jdi.Value
-import org.jdom.Element
+import org.intellij.images.editor.impl.ImageEditorManagerImpl.createImageEditorUI
+import org.jetbrains.annotations.Nls
+import java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment
+import java.awt.Stroke
+import java.awt.Transparency.TRANSLUCENT
+import java.awt.image.BufferedImage
+import java.nio.charset.StandardCharsets
+import javax.swing.Icon
+import javax.swing.ImageIcon
+import javax.swing.JComponent
 
-// https://plugins.jetbrains.com/intellij-platform-explorer/extensions?extensions=com.intellij.debugger.nodeRenderer
-class CustomRenderer: NodeRenderer {
-    override fun clone(): Renderer {
-        TODO("Not yet implemented")
+// Cf ImageObjectRenderer
+class CustomRenderer : CompoundRendererProvider() {
+
+    override fun getName() = "Custom name"
+
+    override fun getClassName() = "org.jibidus.Sample"
+
+    override fun isEnabled() = true
+
+//    override fun getIsApplicableChecker(): Function<Type, CompletableFuture<Boolean>> {
+//        return Function { t ->
+//            CompletableFuture.completedFuture(
+//                DebuggerUtils.instanceOf(t, className)
+//            )
+//        }
+//    }
+
+    override fun getFullValueEvaluatorProvider(): FullValueEvaluatorProvider {
+        return FullValueEvaluatorProvider { evaluationContext: EvaluationContextImpl, valueDescriptor: ValueDescriptorImpl ->
+            object: CustomPopupFullValueEvaluator<String>(
+                "\\u2026 Show Sample",
+                evaluationContext
+            ) {
+                override fun getData(): String {
+                    return "bla"
+                }
+
+                override fun createComponent(data: String): JComponent {
+                    val image = getLocalGraphicsEnvironment()
+                        .defaultScreenDevice.defaultConfiguration
+                        .createCompatibleImage(200, 200, TRANSLUCENT)
+                    val g = image.createGraphics()
+                    g.drawRect(30,30,100,100)
+                    g.dispose()
+                    return createImageEditorUI(image)
+                }
+            }
+
+
+//            object : IconPopupEvaluator(
+//                "\\u2026 Show image",
+////                JavaDebuggerBundle.message("message.node.show.image"),
+//                evaluationContext
+//            ) {
+//                override fun getData(): Icon? {
+//                    return getIcon(
+//                        getEvaluationContext(),
+//                        valueDescriptor.value,
+//                        "imageToBytes"
+//                    )
+//                }
+//            }
+        }
     }
 
-    override fun readExternal(p0: Element?) {
-        TODO("Not yet implemented")
+    abstract
+    class IconPopupEvaluator(linkText: @Nls String, evaluationContext: EvaluationContextImpl) :
+        CustomPopupFullValueEvaluator<Icon>(linkText, evaluationContext) {
+        override fun createComponent(data: Icon): JComponent {
+            val w = data.iconWidth
+            val h = data.iconHeight
+            val image = getLocalGraphicsEnvironment()
+                .defaultScreenDevice.defaultConfiguration
+                .createCompatibleImage(w, h, TRANSLUCENT)
+            val g = image.createGraphics()
+            data.paintIcon(null, g, 0, 0)
+            g.dispose()
+            return createImageEditorUI(image)
+        }
     }
 
-    override fun writeExternal(p0: Element?) {
-        TODO("Not yet implemented")
-    }
+    companion object {
+        val LOG: Logger = Logger.getInstance(CustomRenderer::class.java)
 
-    override fun getUniqueId(): String {
-        TODO("Not yet implemented")
-    }
+        fun getIcon(evaluationContext: EvaluationContextImpl, obj: Value, methodName: String): ImageIcon? {
+            try {
+                val data = getImageBytes(evaluationContext, obj, methodName)
+                return ImageIcon(data)
+            } catch (e: Exception) {
+                LOG.info("Exception while getting image data", e)
+            }
+            return null
+        }
 
-    override fun buildChildren(p0: Value?, p1: ChildrenBuilder?, p2: EvaluationContext?) {
-        TODO("Not yet implemented")
+        private fun getImageBytes(
+            evaluationContext: EvaluationContextImpl,
+            obj: Value,
+            methodName: String
+        ): ByteArray {
+            val copyContext = evaluationContext.createEvaluationContext(obj)
+            val bytes =
+                DebuggerUtilsImpl.invokeHelperMethod(
+                    copyContext,
+                    ImageSerializer::class.java,
+                    methodName,
+                    mutableListOf<Value>(obj)
+                ) as StringReference
+            return bytes.value().toByteArray(StandardCharsets.ISO_8859_1)
+        }
     }
+//    override fun getIconRenderer() = ValueIconRenderer { _, _, _ -> AlertIcon() }
 
-    override fun getChildValueExpression(p0: DebuggerTreeNode?, p1: DebuggerContext?): PsiElement {
-        TODO("Not yet implemented")
-    }
 
-    override fun calcLabel(p0: ValueDescriptor?, p1: EvaluationContext?, p2: DescriptorLabelListener?): String {
-        TODO("Not yet implemented")
-    }
-
-    override fun getName(): String {
-        TODO("Not yet implemented")
-    }
-
-    override fun setName(p0: String?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun isEnabled(): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    override fun setEnabled(p0: Boolean) {
-        TODO("Not yet implemented")
-    }
 }

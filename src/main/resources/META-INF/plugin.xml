@@ -6,13 +6,14 @@
 
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.java</depends>
+    <depends>com.intellij.platform.images</depends>
 
     <resource-bundle>messages.MyBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow factoryClass="org.jibidus.intellij.customdebuggerrenderer.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
         <postStartupActivity implementation="org.jibidus.intellij.customdebuggerrenderer.startup.MyProjectActivity" />
-        <debugger.nodeRenderer implementation="org.jibidus.intellij.customdebuggerrenderer.CustomRenderer"/>
+        <debugger.compoundRendererProvider implementation="org.jibidus.intellij.customdebuggerrenderer.CustomRenderer" order="first"/>
 <!--        <debugger.compoundRendererProvider-->
 <!--                implementation="org.jibidus.intellij.customdebuggerrenderer.CustomRenderer" order="first" />-->
     </extensions>
