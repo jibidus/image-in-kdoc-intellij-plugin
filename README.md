@@ -9,6 +9,7 @@ register new extension point on [NodeRenderer](https://github.com/JetBrains/inte
 * [plugin doc entry point](https://plugins.jetbrains.com/docs/intellij/plugin-structure.html?from=IJPluginTemplate)
 * [tutorials](https://plugins.jetbrains.com/docs/intellij?from=IJPluginTemplate)
 * [Code samples](https://github.com/JetBrains/intellij-sdk-code-samples)
+* [Extensions explorer](https://plugins.jetbrains.com/intellij-platform-explorer/extensions)
 
 
 ![Build](https://github.com/jibidus/intellij-plugin-custom-debugger-renderer/workflows/Build/badge.svg)

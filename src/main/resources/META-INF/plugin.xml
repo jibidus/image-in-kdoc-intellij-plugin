@@ -1,15 +1,19 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <id>org.jibidus.intellij.customdebuggerrenderer</id>
-    <name>intellij-plugin-custom-debugger-renderer</name>
+    <name>Custom-Debugger-Renderer</name>
     <vendor>jibidus</vendor>
 
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.java</depends>
 
     <resource-bundle>messages.MyBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow factoryClass="org.jibidus.intellij.customdebuggerrenderer.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
         <postStartupActivity implementation="org.jibidus.intellij.customdebuggerrenderer.startup.MyProjectActivity" />
+        <debugger.nodeRenderer implementation="org.jibidus.intellij.customdebuggerrenderer.CustomRenderer"/>
+<!--        <debugger.compoundRendererProvider-->
+<!--                implementation="org.jibidus.intellij.customdebuggerrenderer.CustomRenderer" order="first" />-->
     </extensions>
 </idea-plugin>
