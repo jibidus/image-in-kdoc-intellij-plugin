@@ -15,6 +15,8 @@ import com.sun.jdi.StringReference
 import com.sun.jdi.Value
 import org.intellij.images.editor.impl.ImageEditorManagerImpl.createImageEditorUI
 import org.jetbrains.annotations.Nls
+import java.awt.Graphics
+import java.awt.Graphics2D
 import java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment
 import java.awt.Transparency.TRANSLUCENT
 import java.nio.charset.StandardCharsets
@@ -74,10 +76,7 @@ class CustomRenderer : CompoundRendererProvider() {
 //                    g.dispose()
 //                    return createImageEditorUI(image)
 
-                    return JPanel().apply {
-                        add(JLabel(data))
-                    }
-
+                    return Canvas()
                 }
             }
 
