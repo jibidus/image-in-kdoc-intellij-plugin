@@ -7,6 +7,7 @@
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.java</depends>
     <depends>com.intellij.platform.images</depends>
+    <depends>org.jetbrains.kotlin</depends>
 
     <resource-bundle>messages.MyBundle</resource-bundle>
 
@@ -16,5 +17,21 @@
         <debugger.compoundRendererProvider implementation="org.jibidus.intellij.customdebuggerrenderer.CustomRenderer" order="first"/>
 <!--        <debugger.compoundRendererProvider-->
 <!--                implementation="org.jibidus.intellij.customdebuggerrenderer.CustomRenderer" order="first" />-->
+
+        <platform.backend.documentation.psiTargetProvider
+                order="before KotlinDocumentationTargetProvider"
+                implementation="org.jibidus.intellij.customdebuggerrenderer.KotlinKDocImagePsiDocumentationTargetProvider"/>
+
+        <platform.backend.documentation.targetProvider
+                order="before KotlinDocumentationTargetProvider"
+                implementation="org.jibidus.intellij.customdebuggerrenderer.KotlinKDocImageDocumentationTargetProvider"/>
+
+        <platform.backend.documentation.inlineDocumentationProvider
+                order="first"
+                implementation="org.jibidus.intellij.customdebuggerrenderer.KotlinKDocImageInlineDocumentationProvider"/>
+
+        <platform.backend.documentation.inlineDocumentationProvider
+                order="last"
+                implementation="org.jibidus.intellij.customdebuggerrenderer.KotlinKDocImageInlineDocumentationProvider"/>
     </extensions>
 </idea-plugin>

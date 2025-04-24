@@ -98,7 +98,7 @@ class CustomRenderer : CompoundRendererProvider() {
     }
 
     abstract
-    class IconPopupEvaluator(linkText: @Nls String, evaluationContext: EvaluationContextImpl) :
+    class IconPopupEvaluator(linkText: String, evaluationContext: EvaluationContextImpl) :
         CustomPopupFullValueEvaluator<Icon>(linkText, evaluationContext) {
         override fun createComponent(data: Icon): JComponent {
             val w = data.iconWidth

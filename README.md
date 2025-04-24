@@ -3,6 +3,10 @@
 TODO:
 * upgrade to latest IntelliJ
 
+
+Customize kdoc:
+* https://plugins.jetbrains.com/docs/intellij/documentation.html#documentationtarget
+
 register new extension point on [NodeRenderer](https://github.com/JetBrains/intellij-community/blob/master/java/debugger/impl/src/com/intellij/debugger/ui/tree/render/NodeRenderer.java).
 
 * [extension point declaration & usage](https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html?from=IJPluginTemplate#example)
