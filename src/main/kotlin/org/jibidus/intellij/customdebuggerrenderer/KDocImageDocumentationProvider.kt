@@ -23,9 +23,8 @@ import java.nio.file.Paths
 private val logger = Logger.getInstance(KotlinKDocImagePsiDocumentationTargetProvider::class.java)
 
 /**
- * Ca fonctionne lorsqu'il y a le path
+ * Ca fonctionne uniquement sur du code non compilé.
  * TODO :
- * * Documenter chaque extension
  * * Extension KotlinKDocImageInlineDocumentationProvider enregistrée 2 fois !!?? -> last semble nécessaire pour les sources de libs (à vérifier… supprimer "first" ?)
  * * Essayer de faire planter le plugin
  *    - Que se passe-t-il lorsque la dépendance est issue d'un autre module ?
@@ -76,15 +75,7 @@ internal class KotlinKDocImagePsiDocumentationTargetProvider : PsiDocumentationT
         }
 }
 
-internal class KotlinKDocImageDocumentationTargetProvider : DocumentationTargetProvider {
-    private val delegate = KotlinDocumentationTargetProvider()
-    override fun documentationTargets(file: PsiFile, offset: Int): List<DocumentationTarget> {
-        val element = file.findElementAt(offset) ?: return emptyList()
-        return delegate.documentationTargets(file, offset)
-            .map { KotlinKDocImageDocumentationTarget(element, element, it) }
-    }
-}
-
+// Required for "Toggle renderer view" (avec KDocImageInlineDocumentation)
 @Suppress("UnstableApiUsage")
 internal class KotlinKDocImageInlineDocumentationProvider : InlineDocumentationProvider {
     private val delegate = KotlinInlineDocumentationProvider()
@@ -116,14 +107,7 @@ private class KotlinKDocImageDocumentationTarget(
     // Javadoc au survol de la déclaration de la méthode + usage au survol d'un appel de méthode
     override fun computeDocumentation(): DocumentationResult? {
         val documentationResult = delegate.computeDocumentation()
-        // originalElement : là où on est
-        // element : élément dont on veut la javadoc
         val filePath = element.containingFile.virtualFile.path.let(Paths::get)
-//        logger.warn("(computeDocumentation) path=" + filePath.toString())
-//        val containingFile = element.containingFile
-//        if (containingFile is KtFile) {
-//            logger.warn("(computeDocumentation) isCompiled=" + containingFile.isCompiled)
-//        }
         @Suppress("UnstableApiUsage")
         val html =
             (documentationResult as? DocumentationData)?.html?.let { renderKdocImages(it, filePath) } ?: return null
@@ -131,6 +115,7 @@ private class KotlinKDocImageDocumentationTarget(
     }
 
     // TODO: Does this can be replaced by delegate.createPointer()? Il semblerait que non (ajouté pour supporter une version d'IntelliJ), à vérifier.
+    // Required
     override fun createPointer(): Pointer<out DocumentationTarget> {
         val elementPtr = element.createSmartPointer()
         val originalElementPtr = originalElement?.createSmartPointer()
@@ -140,11 +125,5 @@ private class KotlinKDocImageDocumentationTarget(
             val delegate = delegatePtr.dereference() ?: return@Pointer null
             KotlinKDocImageDocumentationTarget(element, originalElementPtr?.dereference(), delegate)
         }
-    }
-
-    override fun computeDocumentationHint(): String? {
-        val filePath = originalElement!!.containingFile.virtualFile.path.let(Paths::get)
-        logger.warn("(computeDocumentationHint) path=" + filePath.toString())
-        return delegate.computeDocumentationHint()?.let { renderKdocImages(it, filePath) }
     }
 }
