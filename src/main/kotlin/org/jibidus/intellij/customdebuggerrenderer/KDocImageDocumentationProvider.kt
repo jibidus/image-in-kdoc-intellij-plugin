@@ -11,9 +11,11 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.createSmartPointer
 import okio.Path.Companion.toPath
+import org.jetbrains.kotlin.KtPsiSourceElement
 import org.jetbrains.kotlin.idea.k2.codeinsight.quickDoc.KotlinDocumentationTargetProvider
 import org.jetbrains.kotlin.idea.k2.codeinsight.quickDoc.KotlinInlineDocumentationProvider
 import org.jetbrains.kotlin.idea.k2.codeinsight.quickDoc.KotlinPsiDocumentationTargetProvider
+import org.jetbrains.kotlin.psi.KtFile
 import java.nio.file.Path
 import java.nio.file.Paths
 
@@ -24,8 +26,12 @@ private val logger = Logger.getInstance(KotlinKDocImagePsiDocumentationTargetPro
  * Ca fonctionne lorsqu'il y a le path
  * TODO :
  * * Documenter chaque extension
+ * * Extension KotlinKDocImageInlineDocumentationProvider enregistrée 2 fois !!?? -> last semble nécessaire pour les sources de libs (à vérifier… supprimer "first" ?)
  * * Essayer de faire planter le plugin
+ *    - Que se passe-t-il lorsque la dépendance est issue d'un autre module ?
  *    - Que se passe-t-il lorsque la dépendance est externe ?
+ *    - Que se passe-t-il avec du code java ?
+ * * Référencer une image dans resources ?
  */
 
 private val kdocImageRegex =
@@ -92,10 +98,11 @@ internal class KotlinKDocImageInlineDocumentationProvider : InlineDocumentationP
 @Suppress("UnstableApiUsage")
 private class KDocImageInlineDocumentation(val delegate: InlineDocumentation) : InlineDocumentation by delegate {
 
+    // Toggle renderer view
     override fun renderText(): String? {
         val filePath =
             (delegate.ownerTarget!!.navigatable as PsiElement).containingFile.virtualFile.path.let(Paths::get)
-        logger.warn("path=" + filePath.toString())
+        logger.warn("(KDocImageInlineDocumentation) path=" + filePath.toString())
         return delegate.renderText()?.let { renderKdocImages(it, filePath) }
     }
 }
@@ -106,17 +113,24 @@ private class KotlinKDocImageDocumentationTarget(
     val delegate: DocumentationTarget
 ) : DocumentationTarget by delegate {
 
+    // Javadoc au survol de la déclaration de la méthode + usage au survol d'un appel de méthode
     override fun computeDocumentation(): DocumentationResult? {
         val documentationResult = delegate.computeDocumentation()
-
-        val filePath = originalElement!!.containingFile.virtualFile.path.let(Paths::get)
-        logger.warn("path=" + filePath.toString())
+        // originalElement : là où on est
+        // element : élément dont on veut la javadoc
+        val filePath = element.containingFile.virtualFile.path.let(Paths::get)
+//        logger.warn("(computeDocumentation) path=" + filePath.toString())
+//        val containingFile = element.containingFile
+//        if (containingFile is KtFile) {
+//            logger.warn("(computeDocumentation) isCompiled=" + containingFile.isCompiled)
+//        }
         @Suppress("UnstableApiUsage")
         val html =
             (documentationResult as? DocumentationData)?.html?.let { renderKdocImages(it, filePath) } ?: return null
         return DocumentationResult.documentation(html)
     }
 
+    // TODO: Does this can be replaced by delegate.createPointer()? Il semblerait que non (ajouté pour supporter une version d'IntelliJ), à vérifier.
     override fun createPointer(): Pointer<out DocumentationTarget> {
         val elementPtr = element.createSmartPointer()
         val originalElementPtr = originalElement?.createSmartPointer()
@@ -130,7 +144,7 @@ private class KotlinKDocImageDocumentationTarget(
 
     override fun computeDocumentationHint(): String? {
         val filePath = originalElement!!.containingFile.virtualFile.path.let(Paths::get)
-        logger.warn("path=" + filePath.toString())
+        logger.warn("(computeDocumentationHint) path=" + filePath.toString())
         return delegate.computeDocumentationHint()?.let { renderKdocImages(it, filePath) }
     }
 }
