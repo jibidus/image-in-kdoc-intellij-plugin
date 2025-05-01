@@ -1,31 +1,25 @@
 package org.jibidus.intellij.customdebuggerrenderer
 
-import com.intellij.idea.LoggerFactory
 import com.intellij.model.Pointer
 import com.intellij.openapi.diagnostic.Logger
-import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.util.TextRange
-import com.intellij.openapi.util.io.toNioPath
 import com.intellij.platform.backend.documentation.*
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.createSmartPointer
-import okio.Path.Companion.toPath
-import org.jetbrains.kotlin.KtPsiSourceElement
-import org.jetbrains.kotlin.idea.k2.codeinsight.quickDoc.KotlinDocumentationTargetProvider
 import org.jetbrains.kotlin.idea.k2.codeinsight.quickDoc.KotlinInlineDocumentationProvider
 import org.jetbrains.kotlin.idea.k2.codeinsight.quickDoc.KotlinPsiDocumentationTargetProvider
-import org.jetbrains.kotlin.psi.KtFile
 import java.nio.file.Path
 import java.nio.file.Paths
+import kotlin.io.path.absolute
 
 
 private val logger = Logger.getInstance(KotlinKDocImagePsiDocumentationTargetProvider::class.java)
 
 /**
- * Ca fonctionne uniquement sur du code non compilé.
+ * * fonctionne uniquement sur du code non compilé.
+ * * lien vers l'image : à tester dans une vraie instance IntelliJ
  * TODO :
- * * Extension KotlinKDocImageInlineDocumentationProvider enregistrée 2 fois !!?? -> last semble nécessaire pour les sources de libs (à vérifier… supprimer "first" ?)
  * * Essayer de faire planter le plugin
  *    - Que se passe-t-il lorsque la dépendance est issue d'un autre module ?
  *    - Que se passe-t-il lorsque la dépendance est externe ?
@@ -45,24 +39,30 @@ private fun renderKdocImages(kotlinDoc: String, currentPath: Path): String {
 //    logger.warn(kotlinDoc)
     val replace = kotlinDoc.replace(kdocImageRegex) {
         var url = it.groups["url"]?.value ?: return@replace it.value
+        var psiElementUrl = url
         val width = it.groups["width"]?.value?.toIntOrNull()
         val height = it.groups["height"]?.value?.toIntOrNull()
         val alt = it.groups["alt"]?.value
 
         if (currentPath != null && !(url.startsWith("http"))) {
-            url = "file://" + currentPath.parent.resolve(url).toString()
+            // psi_element://com.Toto
+            // idea://open?file=
+//            psiElementUrl = "psi_element://${url.replace("/",".")}"
+            psiElementUrl = "idea://open?file=${currentPath.parent.resolve(url).absolute()}"
+            url = "file://${currentPath.parent.resolve(url)}"
 //            logger.warn("New url!! $url")
         }
 
         val buildString = buildString {
-            append("""<img src="$url" """)
+            append("""<a href="$psiElementUrl"><img src="$url" """)
             if (alt != null) append("alt=\"$alt\" ")
             if (width != null) append("width=\"$width\" ")
             if (height != null) append("height=\"$height\" ")
-            append(">")
+            append("></a>")
         }
         buildString
     }
+    logger.warn(replace)
     return replace
 }
 
