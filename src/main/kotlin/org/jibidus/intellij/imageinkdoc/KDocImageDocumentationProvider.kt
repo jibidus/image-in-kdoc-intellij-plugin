@@ -37,7 +37,7 @@ private val kdocImageRegex =
  *
  * @see README.md
  */
-private fun renderKdocImages(kotlinDoc: String, currentPath: Path): String {
+fun renderKdocImages(kotlinDoc: String, currentPath: Path): String {
 //    logger.warn(kotlinDoc)
     val replace = kotlinDoc.replace(kdocImageRegex) {
         var url = it.groups["url"]?.value ?: return@replace it.value
