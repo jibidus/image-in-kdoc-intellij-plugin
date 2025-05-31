@@ -20,7 +20,8 @@ private val logger = Logger.getInstance(KotlinKDocImagePsiDocumentationTargetPro
  * * fonctionne uniquement sur du code non compilé.
  * * lien vers l'image : à tester dans une vraie instance IntelliJ
  * TODO :
- * * Migrer vers K2 : https://kotlin.github.io/analysis-api/migrating-from-k1.html
+ * * Vérifier que tout fonctionne avec la dernière version d'IntelliJ
+ * * Tester avec le plugin Excalidraw
  * * Essayer de faire planter le plugin
  *    - Que se passe-t-il lorsque la dépendance est issue d'un autre module ?
  *    - Que se passe-t-il lorsque la dépendance est externe ?
