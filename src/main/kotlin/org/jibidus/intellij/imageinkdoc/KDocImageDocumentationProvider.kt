@@ -1,4 +1,4 @@
-package org.jibidus.intellij.customdebuggerrenderer
+package org.jibidus.intellij.imageinkdoc
 
 import com.intellij.model.Pointer
 import com.intellij.openapi.diagnostic.Logger

@@ -1,6 +1,6 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 
-# intellij-plugin-custom-debugger-renderer Changelog
+# image-in-kdoc-intellij-plugin Changelog
 
 ## [Unreleased]
 ### Added

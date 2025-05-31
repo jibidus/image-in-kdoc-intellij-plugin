@@ -1,7 +1,7 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>org.jibidus.intellij.customdebuggerrenderer</id>
-    <name>Custom-Debugger-Renderer</name>
+    <id>org.jibidus.image-in-kdoc</id>
+    <name>Image-in-Kdoc</name>
     <vendor>jibidus</vendor>
 
     <depends>com.intellij.modules.platform</depends>
@@ -12,10 +12,10 @@
     <extensions defaultExtensionNs="com.intellij">
         <platform.backend.documentation.psiTargetProvider
                 order="before KotlinDocumentationTargetProvider"
-                implementation="org.jibidus.intellij.customdebuggerrenderer.KotlinKDocImagePsiDocumentationTargetProvider"/>
+                implementation="org.jibidus.intellij.imageinkdoc.KotlinKDocImagePsiDocumentationTargetProvider"/>
         <platform.backend.documentation.inlineDocumentationProvider
                 order="first"
-                implementation="org.jibidus.intellij.customdebuggerrenderer.KotlinKDocImageInlineDocumentationProvider"/>
+                implementation="org.jibidus.intellij.imageinkdoc.KotlinKDocImageInlineDocumentationProvider"/>
     </extensions>
 
     <extensions defaultExtensionNs="org.jetbrains.kotlin">
