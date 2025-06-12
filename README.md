@@ -1,13 +1,7 @@
-# intellij-plugin-custom-debugger-renderer
-
-TODO:
-* upgrade to latest IntelliJ
-
+# image-in-kdoc
 
 Customize kdoc:
 * https://plugins.jetbrains.com/docs/intellij/documentation.html#documentationtarget
-
-register new extension point on [NodeRenderer](https://github.com/JetBrains/intellij-community/blob/master/java/debugger/impl/src/com/intellij/debugger/ui/tree/render/NodeRenderer.java).
 
 * [extension point declaration & usage](https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html?from=IJPluginTemplate#example)
 * [plugin doc entry point](https://plugins.jetbrains.com/docs/intellij/plugin-structure.html?from=IJPluginTemplate)
@@ -16,7 +10,7 @@ register new extension point on [NodeRenderer](https://github.com/JetBrains/inte
 * [Extensions explorer](https://plugins.jetbrains.com/intellij-platform-explorer/extensions)
 
 
-![Build](https://github.com/jibidus/intellij-plugin-custom-debugger-renderer/workflows/Build/badge.svg)
+![Build](https://github.com/jibidus/image-in-kdoc-intellij-plugin/workflows/Build/badge.svg)
 [![Version](https://img.shields.io/jetbrains/plugin/v/MARKETPLACE_ID.svg)](https://plugins.jetbrains.com/plugin/MARKETPLACE_ID)
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/MARKETPLACE_ID.svg)](https://plugins.jetbrains.com/plugin/MARKETPLACE_ID)
 
@@ -44,7 +38,7 @@ To keep everything working, do not remove `<!-- ... -->` sections.
 
 - Using the IDE built-in plugin system:
   
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "intellij-plugin-custom-debugger-renderer"</kbd> >
+  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "image-in-kdoc"</kbd> >
   <kbd>Install</kbd>
   
 - Using JetBrains Marketplace:
@@ -56,7 +50,7 @@ To keep everything working, do not remove `<!-- ... -->` sections.
 
 - Manually:
 
-  Download the [latest release](https://github.com/jibidus/intellij-plugin-custom-debugger-renderer/releases/latest) and install it manually using
+  Download the [latest release](https://github.com/jibidus/image-in-kdoc-intellij-plugin/releases/latest) and install it manually using
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
 
 
