@@ -1,0 +1,1 @@
+This project is a support to demonstrate the image-in-kdoc plugin.
