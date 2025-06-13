@@ -49,6 +49,8 @@ The image file path is relative to file where the kdoc is declared.
 - [ ] Document external url
 - [ ] Add icon to plugin
 - [ ] Image not rendered in plugin description once installed
+- [ ] Test with kdoc from another module
+- [ ] Test with kdoc from external jar
 - [ ] scrollbar not working when using rendered view in place
 - [ ] Test with upper version of IntelliJ
 - [ ] Bump IntelliJ
