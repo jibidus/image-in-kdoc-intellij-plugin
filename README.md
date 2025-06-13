@@ -21,7 +21,8 @@ With this plugin, Intellij can display images from kdoc based on markdown syntax
 
 ![](kdoc%20sample.png)
 
-The image file path is relative to file where the kdoc is declared. 
+* Local paths are relative to file where the kdoc is declared.
+* External urls are supported.
 
 <!-- Plugin description end -->
 
@@ -46,7 +47,6 @@ The image file path is relative to file where the kdoc is declared.
 
 ## ToDo list
 
-- [ ] Document external url
 - [ ] Add icon to plugin
 - [ ] Image not rendered in plugin description once installed
 - [ ] Test with kdoc from another module
